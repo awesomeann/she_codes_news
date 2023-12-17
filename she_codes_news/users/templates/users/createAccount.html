@@ -2,9 +2,12 @@
 
 {% block content %}
   <h2>Create Account</h2>
-  <form method="post">
+  <form class="square-form" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Create Account</button>
+    <div class="form-buttons">
+    <button class="button" type="submit">Submit</button>
+    <a href="{% url 'news:index'%}">Cancel</a>
+    </div>
   </form>
 {% endblock %}

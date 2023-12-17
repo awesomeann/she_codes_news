@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" type="text/css" href="{% static 'styles.css'%}">
+{% endblock %}
+
+{% block content %}
+ 
+  <form class="square-form" method="post" action="">
+    <h2>Edit Story</h2>
+    {% csrf_token %}
+
+    {{ form.non_field_errors }}
+    
+    <div class="field">
+      {{ form.title.label_tag }}
+      {{ form.title }}
+      {{ form.title.errors }}
+    </div>
+
+    <div class="field">
+      {{ form.content.label_tag }}
+      {{ form.content }}
+      {{ form.content.errors }}
+    </div>
+    <div class="form-buttons">
+        <button class= "button" type="submit">Save</button>
+        <a href="{% url 'news:index'%}">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

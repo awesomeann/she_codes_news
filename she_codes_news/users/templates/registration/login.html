@@ -1,7 +1,22 @@
 {% extends 'base.html' %}
-{% block content %} <h2>Login</h2> <form method="post">
-{% csrf_token %}
-{{ form.as_p }}
-<button type="submit">Login</button>
+{% load static %}  
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+{% endblock %}
+
+{% block content %} 
+    <div class="big-title-section">
+    <h2 class="big-title">Login</h2> 
+</div>
+
+<form id="login-form" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+   <div class="form-buttons"> 
+    <button class="button" type="submit">Login</button>
+    <a href="{% url 'users:create-account'%}">Create Account</a>
+    <a href="{% url 'news:index'%}">Cancel</a>
+   </div>
+    </form>
 </form>
 {% endblock %}

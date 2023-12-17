@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" type="text/css" href="{% static 'styles.css'%}">
+{% endblock %}
+{% block content %}
+
+<form class = "square-form" href="{% url 'news:delete_story' pk=story.pk %}" method="POST"> 
+    {%csrf_token%} 
+    
+    
+    <p> Are you sure you want to delete the following story? </p><h3>{{story.title}}</h3> 
+<div class="form-buttons">
+    <p> <input class="button" type='submit' value='Yes'></p>
+    <a href="{% url 'news:index' %}">Cancel</a>
+</div>    
+</form>
+    {% endblock %}

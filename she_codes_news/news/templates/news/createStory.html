@@ -1,9 +1,40 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+{% load static %}  
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+{% endblock %}
 
 {% block content %}
-<form action="" method="post">
+<form class="square-form" action="" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="submit">
+   
+    {{ form.non_field_errors }}
+    <h2>Add a New Story</h2>
+    <div class="field">
+      {{ form.title.label_tag }}
+      {{ form.title }}
+      {{ form.title.errors }}
+    </div>
+
+    <div class="field">
+      {{ form.content.label_tag }}
+      {{ form.content }}
+      {{ form.content.errors }}
+    </div>
+    
+    <div class="field">
+        {{ form.image.label_tag }}
+        {{ form.image }}
+        {{ form.image.errors }}
+        <div id="image-hint">
+        <p>Paste the URL of the image from </p><a href="https://unsplash.com/">https://unsplash.com/</a>
+        </div>
+      </div>
+
+
+<div class="form-buttons">
+    <input class = "button" type="submit" value="Submit">
+    <a href='{% url 'news:index' %}'>Cancel</a></p>
+</div>    
 </form>
 {% endblock %}

@@ -3,18 +3,79 @@
 {% load static %}
 
 {% block stylesheets %}
-  <link rel="stylesheet" type="text/css" href="{% static 'news/styles.css'%}">
+  <link rel="stylesheet" type="text/css" href="{% static 'styles.css'%}">
 {% endblock %}
 {% block content %}
 
 
     <div id="story-wrapper">
-        <h2>{{ story.title }}</h2>
-        <h4>{{ story.author }}</h4>
-        <div id="story-content">
-            <img src="{% static '/news/images/placeholder-5.jpg' %}">
-            {{ story.content|linebreaks }}
+        <div class="big-title-section">
+        <h2 class="big-title">{{ story.title }}</h2>
+        {% if request.user == story.author  %}
+
+        
+        <div id="edit-delete">
+            <a class="button" href="{% url 'news:edit_story' story.id  %}">Edit</a>
+            <a class="button" href="{% url 'news:delete_story' story.id %}">Delete</a>
         </div>
-    </div>
+
+        {% endif %}
+        </div>
+       
+        <div id="story-content">
+            {% if story.image %}
+                <img id="story-img" src="{{ story.image }}">
+            {% else %}
+                <img src="https://picsum.photos/600">
+            {% endif %}
+        </div>
+       
+            {{ story.content|linebreaks }}
+
+
+            <div id="story-signature">
+                <h4 class="username"  href="">{{ story.author }}</h4>
+                 <h5> {{ story.pub_date }} </h5>
+            </div>
+        </div>
+
+
+
+   
+
+    {% if story.comments %}
+    <h2 class="sub-heading">Comments</h2>
+        <div id="comment-section">
+            {% for comment in story.comments.all %}
+                <div class="comment"> <p id="comment-tex">{{comment.text}}</p>  <p id = "comment-author">{{comment.author}} - {{comment.date}}</p></div>
+            {% endfor %}
+        </div>   
+    {% else %}
+        <div id="comment-section">
+            <p>Be the first to add a comment</p>
+        </div>   
+    {% endif %}
+    
+
+
+
+{% if request.user.is_authenticated %}
+
+<h2 class="sub-heading">Add a comment</h2>
+<div>
+    <form class="comment-form" method="POST" action="{% url 'news:addComment' story.id %}">   
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input class = "button" type="submit" value="Submit">
+    </form>
+</div>
+
+{% else %}
+
+<h3>Login to post a comment</h3>
+
+
+
+{% endif %}
 
 {% endblock %}

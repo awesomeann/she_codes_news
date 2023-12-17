@@ -3,9 +3,17 @@
 {% block stylesheets %}
 <link rel="stylesheet" type="text/css" href="{% static 'news/styles.css' %}">
 {% endblock %}
-{% block content %}
-   <h2>Latest News</h2>
 
+{% block content %}
+
+
+<div class="big-title-section"> 
+    <h2  class="big-title">Latest News</h2> 
+    {% if request.user.is_authenticated %}
+
+        <a id="add-story" href="/news/add-story"> Add a Story</a>
+    {% endif %}
+</div> 
     <div id="latest-stories">
         {% if latest_stories %}
             {% for story in latest_stories %}
@@ -16,7 +24,38 @@
         {% endif %}
     </div>
 
+<div id="main-section">   
+
+
+    <!-- Filter by Author -->
+
+
+
+
+    
+<div class="big-title-section">    
+    <h2 class="big-title">Other Stories</h2> 
+    <div id="filter-section">
+        {% if selected_author %}
+        <a id="clear-filter" href="./"> Clear Filter </a>
+      {% endif %}
+        <form method="GET" action="">
+        <select class="dropdown" name="author" onchange=" this.form.submit()">
+            {% if selected_author %}
+            <option value="">{{selected_author}}</option>
+            {% else %}
+            <option value="">Select Author</option>
+            {% endif %}
+             {% for user in users %}
+                 <option value="{{ user.username }}">{{ user.username }}</option>
+             {% endfor %}
+        </select>
+       
+    </form>
+    </div>
+</div>
     <div id="all-stories">
+       
         {% if latest_stories %}
             {% for story in all_stories %}
                 {% include './storyCard.html' with story=story %}
@@ -25,4 +64,5 @@
             <p>No stories are available.</p>
         {% endif %}
     </div>
+</div>     
 {% endblock %}    
